@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <title>Lava frågar</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #FCFAF8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+        }
+
+        .question-box {
+            margin-top: 24px;
+            background: white;
+            border: 3px solid black;
+            border-radius: 20px;
+            padding: 30px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .button {
+            margin-top: 24px;
+            background: #f4b942;
+            border: 3px solid black;
+            padding: 18px 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 16px;
+            cursor: pointer;
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.2);
+            transition: all 0.1s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            transform: translateY(2px);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- BYT UT src till din bildfil om det behövs -->
+        <div class="hero">
+            <img src="image.png" alt="Lava frågar" />
+        </div>
+
+        <div id="questionBox" class="question-box">
+            ???
+        </div>
+
+        <button class="button" onclick="getRandomQuestion()">
+            NY FRÅGA
+        </button>
+
+    </div>
+
+    <script>
+        const questions = [
+            "Om du fick tre önskningar, vad skulle det vara?",
+            "Vilken realityshow skulle du vara med på om du fick välja?",
+            "Vilket spirit animal är du?",
+            "Om du kunde bo var som helst i världen i ett år, var skulle du bo?",
+            "Vilken superkraft hade passat dig bäst i vardagen?",
+            "Vad är det konstigaste du ätit eller skulle kunna tänka dig att äta?",
+            "Vilken låt beskriver ditt humör idag?",
+            "Om du bara fick äta en maträtt i en månad, vilken skulle du välja?",
+            "Vilken filmvärld hade du helst velat kliva in i?",
+            "Vad hade du döpt din båt till om du hade en?",
+            "Vilket jobb hade du testat om du var tvungen att byta karriär helt imorgon?",
+            "Vad är din mest onödiga men charmiga talang?",
+            "Vilken kändis tror du att du hade kommit bäst överens med?",
+            "Om ditt liv var en tv-serie, vad hade första avsnittet hetat?",
+            "Vad hade du gjort först om du vann 100 miljoner kronor?",
+            "Vilken årstid passar din personlighet bäst?",
+            "Vad är det roligaste smeknamnet du kan komma på för dig själv?",
+            "Om du var ett djur för en dag, vilket djur hade du valt?",
+            "Vilken app i mobilen skulle du ha svårast att klara dig utan?",
+            "Vad hade du velat vara världsbäst på, om du fick välja helt fritt?",
+            "Vilken fiktiv karaktär påminner mest om dig?",
+            "Om du fick bjuda tre personer på middag, levande eller döda, vilka hade du valt?",
+            "Vilken vardagsgrej önskar du att någon hade uppfunnit bättre?",
+            "Vad är ditt perfekta fredagsmys?",
+            "Vilket land vill du helst resa till nästa gång?",
+            "Om du hade en egen talkshow, vem skulle vara din drömgäst?",
+            "Vad är det mest spontana du har gjort?",
+            "Vilken liten sak gör dig alltid på bättre humör?",
+            "Om du måste sjunga karaoke nu direkt, vilken låt väljer du?",
+            "Vad hade stått på din personliga varningsetikett?",
+            "Vilken fiktiv familj hade du kunnat tänka dig att adoptera dig?",
+            "Vad är något du tyckte var coolt som barn och fortfarande gillar?",
+            "Om du kunde teleportera dig just nu, vart hade du åkt?",
+            "Vilken maträtt representerar dig bäst och varför?",
+            "Vad hade du döpt en självbiografi om ditt liv till?",
+            "Vilken trend hoppas du aldrig kommer tillbaka?",
+            "Vad är det mest imponerande du kan laga i köket?",
+            "Om du fick leva i en annan tidsepok, vilken hade du valt?",
+            "Vilken person i ditt liv får dig alltid att skratta?",
+            "Vad är din perfekta söndag?",
+            "Om du öppnade ett café, vad skulle det heta?",
+            "Vilken tecknad figur hade varit din bästa kompis?",
+            "Vad är något du alltid tappar bort?",
+            "Vilken sport hade du velat vara proffs i utan att behöva träna?",
+            "Om du var med i ett band, vilket instrument hade du låtsats kunna?",
+            "Vad är den värsta moden du själv har haft?",
+            "Vad hade du valt: alltid vara 10 minuter sen eller alltid 20 minuter för tidig?",
+            "Vilket rum i ditt hem beskriver dig bäst?",
+            "Om du fick byta liv med någon i 24 timmar, vem skulle du välja?",
+            "Vilket litet vardagsmoment känns oväntat lyxigt för dig?"
+        ];
+
+        let lastIndex = -1;
+
+        function getRandomQuestion() {
+            let randomIndex;
+
+            do {
+                randomIndex = Math.floor(Math.random() * questions.length);
+            } while (randomIndex === lastIndex);
+
+            lastIndex = randomIndex;
+            document.getElementById('questionBox').textContent = questions[randomIndex];
+        }
+    </script>
+</body>
+
+</html>
